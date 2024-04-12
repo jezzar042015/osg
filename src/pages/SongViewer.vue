@@ -34,8 +34,8 @@ export default {
     async mounted() {
         const songId = this.$route.params.id;
         const song = await lib.song(songId);
-        this.title = song.default.title
-        this.lyrics = song.default.lyrics
+        this.title = song.title
+        this.lyrics = song.lyrics
     },
     data() {
         return {
