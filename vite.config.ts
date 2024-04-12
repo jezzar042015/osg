@@ -12,4 +12,7 @@ export default defineConfig({
     }
   },
   base: '/osg/'
+  // server: {
+  //   port: parseInt(process.env.VITE_PORT) || 3001
+  // }
 })

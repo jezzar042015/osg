@@ -20,7 +20,7 @@ export default {
     },
     methods: {
         view(src: string) {
-            this.$router.push(`osg/${src}`)
+            this.$router.push(`song/${src}`)
         }
     }
 }
