@@ -1,7 +1,18 @@
 <template>
     <div>
-        <div class="back" @click="gotoMenu">
-            Original Songs
+
+        <div @click="gotoMenu" class="back">
+            <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" :style="{ '--fill-color': fillColor }">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path :fill="fillColor" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                    <path :fill="fillColor"
+                        d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z">
+                    </path>
+                </g>
+            </svg>
+            <span> Original Songs </span>
         </div>
         <div class="title">{{ title }}</div>
         <div>
@@ -32,6 +43,10 @@ import { lib } from '@/library/menu'
 
 export default {
     async mounted() {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        this.setFillColor(prefersDark);
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.handleColorSchemeChange);
+
         const songId = this.$route.params.id;
         const song = await lib.song(songId);
         this.title = song.title
@@ -42,12 +57,21 @@ export default {
             title: null,
             lyrics: null,
             key: 'chord',
+            fillColor: ''
         }
     },
     methods: {
         gotoMenu() {
             this.$router.push('/')
-        }
+        },
+        setFillColor(isDarkMode: boolean) {
+            // this.fillColor = isDarkMode ? 'var(--dark-fill-color)' : 'var(--light-fill-color)';
+            this.fillColor = isDarkMode ? '#ffffff' : '#000000';
+
+        },
+        handleColorSchemeChange(e) {
+            this.setFillColor(e.matches);
+        },
     }
 }
 </script>
@@ -77,6 +101,7 @@ span.chunk:before
     font-weight: 700;
     font-size: 1.5rem;
     padding-top: 4px;
+    color: #e6b04e;
 }
 
 .label
@@ -98,9 +123,30 @@ span.chunk:before
     display: inline-block;
 }
 
+.back
+{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.back svg
+{
+    height: 16px;
+}
+
 .back:hover
 {
-    color: white;
+    /* color: white; */
     cursor: pointer;
+}
+</style>
+
+<style scoped>
+:root
+{
+    --light-fill-color: #000000;
+    --dark-fill-color: #d4cbcba3;
 }
 </style>
